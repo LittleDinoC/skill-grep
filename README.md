@@ -10,8 +10,6 @@
 
 A smart skill search engine for agents — discover reusable skills and workflows instantly.
 
----
-
 ## 🌟 Why Skill Compass?
 
 **Finding the right skill shouldn't be harder than building it yourself.**
@@ -126,4 +124,4 @@ Recommendations:
 
 ## ⚖️ License
 
-MIT License — feel free to use, modify, and distribute.
+Released under the Apache License 2.0.
