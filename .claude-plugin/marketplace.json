@@ -1,21 +1,21 @@
 {
-    "name": "skill-compass",
+    "name": "skill-grep",
     "owner": {
         "name": "Yichen Tang",
         "email": "tangyc21@mails.tsinghua.edu.cn"
     },
     "metadata": {
-        "description": "Skill Compass",
+        "description": "Skill Grep",
         "version": "1.0.0"
     },
     "plugins": [
         {
-            "name": "skill-compass",
+            "name": "skill-grep",
             "description": "Smart skill search engine for agents — discover reusable skills and workflows instantly.",
             "source": "./",
             "strict": false,
             "skills": [
-                "./skills/skill-compass"
+                "./skills/skill-grep"
             ]
         }
     ]

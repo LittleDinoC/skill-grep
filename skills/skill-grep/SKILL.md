@@ -1,9 +1,9 @@
 ---
-name: skill-compass
+name: skill-grep
 description: Use when a user is trying to discover an installable or reusable skill or workflow, especially when they ask for a skill for a task, want to compare nearby skill categories, or need help narrowing discovery results.
 ---
 
-# Search Skills
+# Skill Grep
 
 ## Overview
 
