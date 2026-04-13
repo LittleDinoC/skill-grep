@@ -6,7 +6,7 @@
 
 A smart skill search engine for agents — discover reusable skills and workflows instantly.
 
-🌐 Try the Web Version: [skills.megatechai.com](https://skills.megatechai.com/). Search skills directly in your browser!
+🌐 Try the Web Version: [skillgrep.net](https://www.skillgrep.net/) . Search skills directly in your browser!
 
 ## 🌟 Why Skill Grep?
 
