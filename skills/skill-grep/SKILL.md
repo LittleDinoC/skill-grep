@@ -14,9 +14,9 @@ Primary objective for this deployment:
 
 High-level flow:
 1. build structured query
-2. call `POST /search_multi`
+2. call `POST /search_multi_field`
 3. if needed, ask one clarification
-4. call `POST /search_multi` again
+4. call `POST /search_multi_field` again
 5. return 1-3 final recommendations
 6. call `POST /feedback` after user verdict
 
@@ -32,7 +32,7 @@ If clarification was asked, the next user reply MUST be treated as continuation 
 ## Operational Integration
 
 - base URL env: `https://skills.megatechai.com/`
-- search endpoint: `POST /search_multi`
+- search endpoint: `POST /search_multi_field`
 - feedback endpoint: `POST /feedback`
 
 Session policy:
@@ -40,10 +40,11 @@ Session policy:
 - always set `round` explicitly (`1` then `2`)
 - when pass #2 is used, always set `parent_search_id` to pass #1 `search_id`
 
-## Request Contract (`/search_multi`)
+## Request Contract (`/search_multi_field`)
 
 ```json
 {
+  "origin_query": "user's original input query",
   "query": "optional broad query",
   "query_fields": {
     "name": "short capability label",
@@ -70,6 +71,7 @@ Session policy:
 ```
 
 Field rules:
+- `origin_query`: user's original natural language input
 - `retrieval_session_id`: shared across pass #1 and pass #2
 - `round`: pass number (`1`, `2`, ...), API records only and does not block
 - `parent_search_id`: pass #2 points to pass #1 `search_id`
@@ -81,8 +83,9 @@ Field rules:
 
 Language rule:
 - if user input is not English, translate to natural English before sending payload text
+- keep `origin_query` as the original user input (may be non-English)
 
-## Response Contract (`/search_multi`)
+## Response Contract (`/search_multi_field`)
 
 ```json
 {
@@ -159,6 +162,7 @@ Feedback policy:
 ### 1) Generate structured query
 
 1. Transform user need into these fields:
+   - `origin_query`: user's original input (keep as-is, may be non-English)
    - `name`: short capability label
    - `description`: main problem to solve (strongest field)
    - `when_to_use`: triggering scenario
@@ -167,7 +171,7 @@ Feedback policy:
    - keep unknown fields empty
    - do not duplicate one sentence into all fields
    - use `sections` only when user explicitly cares about coverage
-1. call `POST /search_multi` with:
+1. call `POST /search_multi_field` with:
    - `round=1`
    - `clarification_used=false`
    - `retrieval_session_id` generated once and reused
@@ -191,7 +195,8 @@ Clarification question quality bar:
 ### 3) Regenerate structured query and retrieve again (only if clarification happened)
 
 1. regenerate full query object (not only a raw append)
-2. call `POST /search_multi` with:
+2. call `POST /search_multi_field` with:
+   - `origin_query`: same as pass #1 (user's original input)
    - `round=2`
    - same `retrieval_session_id`
    - `parent_search_id=search_id_round1`
@@ -224,8 +229,9 @@ Feedback timing rules:
 ### 1) Pass #1
 
 ```json
-POST /search_multi
+POST /search_multi_field
 {
+  "origin_query": "I need a skill to help me write and validate new skills",
   "query_fields": {
     "description": "find a skill to author and validate new skills"
   },
@@ -242,8 +248,9 @@ POST /search_multi
 ### 2) Pass #2
 
 ```json
-POST /search_multi
+POST /search_multi_field
 {
+  "origin_query": "I need a skill to help me write and validate new skills",
   "query_fields": {
     "name": "writing-skills",
     "description": "author reusable skills and verify quality before release",
@@ -319,7 +326,8 @@ You can manually download from GitHub repo and place in the correct local skills
 
 ## Common Mistakes
 
-- parsing `/search_multi` as array root instead of envelope response
+- parsing `/search_multi_field` as array root instead of envelope response
+- forgetting to include `origin_query` in the request
 - forgetting to persist `search_id` / `retrieval_session_id`
 - skipping `parent_search_id` on pass #2
 - asking a second clarification question

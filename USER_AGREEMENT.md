@@ -1,18 +1,18 @@
-# Skill Compass User Agreement
+# Skill Grep User Agreement
 
 Effective date: 2026-03-28
 
-By accessing or using Skill Compass (the "Service"), you agree to this User Agreement.
+By accessing or using Skill Grep (the "Service"), you agree to this User Agreement.
 
 ## 1) Who We Are
 
-Skill Compass is a search and discovery interface for agent skills and related technical content.
+Skill Grep is a search and discovery interface for agent skills and related technical content.
 
 ## 2) Scope
 
 This Agreement applies to:
 
-- The Skill Compass website and frontend pages.
+- The Skill Grep website and frontend pages.
 - Related backend API interactions used by the website.
 - Public repository materials where this Agreement is published.
 
